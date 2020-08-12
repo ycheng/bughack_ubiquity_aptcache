@@ -40,6 +40,15 @@ import apt_pkg
 from apt.cache import Cache, FetchFailedException
 import debconf
 
+
+import time
+import syslog
+def wait_for_file(wfile):
+    while os.path.isfile(wfile):
+        syslog.syslog(wfile + "exists")
+        time.sleep(5)
+
+
 sys.path.insert(0, '/usr/lib/ubiquity')
 
 from ubiquity import install_misc, misc, osextras, plugin_manager
@@ -1188,6 +1197,8 @@ class Install(install_misc.InstallBase):
                 if ':' in dep.name:
                     filtered_extra_packages.remove(package)
                     break
+
+        wait_for_file("/wait/1")
 
         self.do_install(filtered_extra_packages)
 
