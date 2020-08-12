@@ -214,6 +214,9 @@ def record_installed(pkgs):
     """Record which packages we've explicitly installed so that we don't
     try to remove them later."""
 
+    print("===> in record_installed")
+    traceback.print_stack()
+
     record_file = "/var/lib/ubiquity/apt-installed"
     if not os.path.exists(os.path.dirname(record_file)):
         os.makedirs(os.path.dirname(record_file))
