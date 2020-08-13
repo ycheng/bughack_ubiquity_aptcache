@@ -1,6 +1,6 @@
-bughack (0.1) UNRELEASED; urgency=low
+bughack (0.2) UNRELEASED; urgency=low
 
   * Initial release. Closes: #nnnn
     <nnnn is the bug number of your ITP>
 
- -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Wed, 12 Aug 2020 15:52:42 +0800
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Thu, 13 Aug 2020 12:05:26 +0800

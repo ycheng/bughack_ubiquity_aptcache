@@ -45,7 +45,7 @@ import time
 import syslog
 def wait_for_file(wfile):
     while os.path.isfile(wfile):
-        syslog.syslog(wfile + "exists")
+        syslog.syslog(wfile + " exists")
         time.sleep(5)
 
 
@@ -1198,9 +1198,19 @@ class Install(install_misc.InstallBase):
                     filtered_extra_packages.remove(package)
                     break
 
-        wait_for_file("/wait/1")
-
-        self.do_install(filtered_extra_packages)
+        fail_count = 0
+        for i in range(4):
+            succ = True
+            try:
+                self.do_install(filtered_extra_packages)
+            except Exception as err:
+                syslog.syslog("self.do_install(filtered_extra_packages) failed once")
+                fail_count += 1
+                succ = False
+            if succ:
+                break
+        if fail_count > 4:
+            raise Exception("self.do_install(filtered_extra_packages) failed for 4 times")
 
         if self.db.get('ubiquity/install_oem') == 'true':
             try:

@@ -535,8 +535,14 @@ def mark_install(cache, pkg):
         apt_error = False
         try:
             cachedpkg.mark_install()
-        except SystemError:
+        except SystemError as err:
+            syslog.log("===== mark_install: apt_error: " + pkg)
+            syslog.log("===== mark_install: apt_error: " + str(err))
+            syslog.log("===== mark_install: apt_error: " + str(cachedpkg.candidate))
+            syslog.log("===== mark_install: apt_error: " + str(cachedpkg.candidate.filename))
             apt_error = True
+        if cache._depcache.broken_count:
+            syslog.log("===== mark_install: cache._depcache.broken_count: " + str(cache._depcache.broken_count))
         if cache._depcache.broken_count > 0 or apt_error:
             brokenpkgs = broken_packages(cache)
             while brokenpkgs:
